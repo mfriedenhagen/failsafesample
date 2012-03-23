@@ -4,13 +4,10 @@
  */
 package com.github.mfriedenhagen.failsafesample;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import static org.junit.Assert.assertTrue;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Assume;
-import org.junit.BeforeClass;
 
 /**
  *
@@ -21,21 +18,9 @@ public class AppAssumeIT {
     public AppAssumeIT() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        Assume.assumeNoException(new IllegalStateException("Illegal state"));
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
     @Before
     public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
+        Assume.assumeNoException(new IllegalStateException("Illegal state"));
     }
 
     @Test
