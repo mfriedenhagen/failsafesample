@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>failsafesample</name>
-    <url>http://maven.apache.org</url>
+    <url>http://huschteguzzel.de/hudson/job/failsafesample/site</url>
     <ciManagement>
         <system>jenkins</system>
         <url>http://huschteguzzel.de/hudson/job/failsafesample/</url>
