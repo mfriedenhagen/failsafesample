@@ -52,8 +52,8 @@
                         <configuration>
                             <reportFormat>plain</reportFormat>
                         </configuration>
-                    </executions>
-                </execution>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
