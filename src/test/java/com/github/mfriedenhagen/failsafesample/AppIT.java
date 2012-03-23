@@ -4,18 +4,22 @@
  */
 package com.github.mfriedenhagen.failsafesample;
 
-import org.junit.AfterClass;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 
 /**
  *
  * @author mirko
  */
 public class AppIT {
+
     @Test
     public void checkFailing() {
-        assertTrue("Fail", false);
+        assertTrue("Should fail", false);
+    }
+
+    @Test
+    public void checkSuccess() {
+        assertTrue("Should not fail", true);
     }
 }
