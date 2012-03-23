@@ -49,8 +49,11 @@
                         <goals>
                             <goal>integration-test</goal>
                         </goals>
-                    </execution>
-                </executions>
+                        <configuration>
+                            <reportFormat>plain</reportFormat>
+                        </configuration>
+                    </executions>
+                </execution>
             </plugin>
         </plugins>
     </build>
