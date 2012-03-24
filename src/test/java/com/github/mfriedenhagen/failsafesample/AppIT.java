@@ -20,6 +20,6 @@ public class AppIT {
 
     @Test
     public void checkSuccess() {
-        assertTrue("Should not fail", true);
+        assertTrue("Should not fail", new App().isFooIntegrationTest());
     }
 }
