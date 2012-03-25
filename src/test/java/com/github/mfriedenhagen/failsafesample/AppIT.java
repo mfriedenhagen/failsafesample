@@ -5,6 +5,7 @@
 package com.github.mfriedenhagen.failsafesample;
 
 import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -20,6 +21,12 @@ public class AppIT {
 
     @Test
     public void checkSuccess() {
+        assertTrue("Should not fail", new App().isFooIntegrationTest());
+    }
+
+    @Test
+    @Ignore("Ignored Integration test.")
+    public void checkIgnore() {
         assertTrue("Should not fail", new App().isFooIntegrationTest());
     }
 }
