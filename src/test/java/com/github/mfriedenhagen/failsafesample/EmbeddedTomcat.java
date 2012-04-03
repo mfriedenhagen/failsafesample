@@ -25,6 +25,7 @@ public class EmbeddedTomcat extends ExternalResource {
         }
         tomcat.setBaseDir("target/failsafesample-1.0-SNAPSHOT");
         tomcat.setPort(tomcatPort);
+        tomcat.addContext("", "");
         tomcat.addServlet("", "helloworld", new MyFineServlet());
     }
 
