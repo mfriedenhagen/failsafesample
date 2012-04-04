@@ -6,6 +6,7 @@ package com.github.mfriedenhagen.failsafesample;
 
 import java.net.URI;
 import javax.servlet.Servlet;
+import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 import org.junit.rules.ExternalResource;
@@ -39,16 +40,18 @@ public class EmbeddedTomcat extends ExternalResource {
         this.servletPath = servletPath;
         tomcat.setBaseDir(".");
         tomcat.setPort(tomcatPort);
-        tomcat.addContext("", "");
         tomcat.getHost().setAppBase(APP_BASE);
         tomcat.setHostname(HOSTNAME);
-        tomcat.addServlet("", servletPath, servlet);
+        final Context context = tomcat.addContext("", "");
+        tomcat.addServlet(context, servletPath, servlet);
+        context.addServletMapping("/*", servletPath);
+
     }
 
     @Override
     protected void before() throws Throwable {
         LOG.info("Starting tomcat on port '{}:{}'", HOSTNAME, tomcatPort);
-        tomcat.start();        
+        tomcat.start();
     }
 
     @Override
@@ -63,6 +66,6 @@ public class EmbeddedTomcat extends ExternalResource {
     }
 
     public URI getURI() {
-        return URI.create("http://" + HOSTNAME + ":" + tomcatPort + "/" + servletPath);
+        return URI.create("http://" + HOSTNAME + ":" + tomcatPort + "/");
     }
 }

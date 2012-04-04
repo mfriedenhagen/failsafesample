@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URLConnection;
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertTrue;
 import org.junit.ClassRule;
@@ -51,8 +52,20 @@ public class AppIT {
     }
 
     @Test
-    public void checkHelloWorldServlet() throws MalformedURLException, IOException {
+    public void checkHelloWorld() throws MalformedURLException, IOException {
         URI uri = embeddedTomcat.getURI();
+        final String expected = "Hallo Mirko";
+        checkHelloWorld(uri, expected);
+    }
+
+    @Test
+    public void checkHelloWorldWithDifferentName() throws MalformedURLException, IOException {
+        URI uri = embeddedTomcat.getURI().resolve("?name=Peter");
+        final String expected = "Hallo Peter";
+        checkHelloWorld(uri, expected);
+    }
+
+    void checkHelloWorld(URI uri, final String expected) throws IOException {
         LOG.info("uri = '{}'", uri);
         final InputStream openStream = uri.toURL().openStream();
         final String content;
@@ -62,5 +75,6 @@ public class AppIT {
             openStream.close();
         }
         LOG.info("content='{}'", content);
+        Assert.assertEquals(expected, content);
     }
 }
