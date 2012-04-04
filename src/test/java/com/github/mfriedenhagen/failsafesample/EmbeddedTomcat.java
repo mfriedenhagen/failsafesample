@@ -4,45 +4,65 @@
  */
 package com.github.mfriedenhagen.failsafesample;
 
+import java.net.URI;
+import javax.servlet.Servlet;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 import org.junit.rules.ExternalResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author mirko
  */
 public class EmbeddedTomcat extends ExternalResource {
+    
+    private final static Logger LOG = LoggerFactory.getLogger(EmbeddedTomcat.class);
+
+    private final static String APP_BASE = "src/main/webapp";
+
+    private final static String HOSTNAME = "localhost";
 
     private final Tomcat tomcat = new Tomcat();
+
     private int tomcatPort;
 
-    public EmbeddedTomcat() {        
+    private final String servletPath;
+
+    public EmbeddedTomcat(final String servletPath, final Servlet servlet) {
         try {
             tomcatPort = Integer.valueOf(System.getenv("TOMCAT_PORT"));
         } catch (IllegalArgumentException e) {
             tomcatPort = 8080;
         }
-        tomcat.setBaseDir("target/failsafesample-1.0-SNAPSHOT");
+        this.servletPath = servletPath;
+        tomcat.setBaseDir(".");
         tomcat.setPort(tomcatPort);
         tomcat.addContext("", "");
-        tomcat.addServlet("", "helloworld", new MyFineServlet());
+        tomcat.getHost().setAppBase(APP_BASE);
+        tomcat.setHostname(HOSTNAME);
+        tomcat.addServlet("", servletPath, servlet);
     }
 
     @Override
     protected void before() throws Throwable {
-        System.err.println("Starting tomcat on port " + tomcatPort);
-        tomcat.start();
+        LOG.info("Starting tomcat on port '{}:{}'", HOSTNAME, tomcatPort);
+        tomcat.start();        
     }
 
     @Override
     protected void after() {
-        System.err.println("Stopping tomcat on port " + tomcatPort);
+        LOG.info("Stopping tomcat on port '{}:{}'", HOSTNAME, tomcatPort);
         try {
             tomcat.stop();
             tomcat.destroy();
         } catch (LifecycleException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public URI getURI() {
+        return URI.create("http://" + HOSTNAME + ":" + tomcatPort + "/" + servletPath);
     }
 }
