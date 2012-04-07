@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URLConnection;
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.ClassRule;
 import org.junit.Ignore;
@@ -75,6 +73,6 @@ public class AppIT {
             openStream.close();
         }
         LOG.info("content='{}'", content);
-        Assert.assertEquals(expected, content);
+        assertEquals(expected, content);
     }
 }
