@@ -4,11 +4,12 @@
  */
 package com.github.mfriedenhagen.failsafesample;
 
+import com.google.common.io.CharStreams;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URI;
-import org.apache.commons.io.IOUtils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.ClassRule;
@@ -68,7 +69,7 @@ public class AppIT {
         final InputStream openStream = uri.toURL().openStream();
         final String content;
         try {
-            content = IOUtils.toString(openStream);
+            content = CharStreams.toString(new InputStreamReader(openStream));
         } finally {
             openStream.close();
         }
